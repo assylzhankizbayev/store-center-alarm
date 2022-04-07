@@ -1,10 +1,30 @@
 <div class="container">
-  <app-icon class="icon-back" name="back" color="#000" (click)="back()"></app-icon>
+  <app-icon
+    class="icon-back"
+    name="back"
+    color="#000"
+    (click)="back()"
+  ></app-icon>
 
-  <div class="top-view">
-    <ng-container *ngTemplateOutlet="row; context: { rows: rows }"></ng-container>
-    <app-corridor></app-corridor>
-    <ng-container *ngTemplateOutlet="row; context: { rows: rows }"></ng-container>
+  <div class="content">
+    <div class="col">
+      <span class="text">Вид сверху ({{ floorNumber }} этаж)</span>
+
+      <div class="top-view">
+        <ng-container
+          *ngTemplateOutlet="row; context: { rows: rows }"
+        ></ng-container>
+        <app-corridor></app-corridor>
+        <ng-container
+          *ngTemplateOutlet="row; context: { rows: rows }"
+        ></ng-container>
+      </div>
+    </div>
+
+    <div class="info">
+      <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
+      Электропотребление этажа 1000 кВт/ч
+    </div>
   </div>
 </div>
 

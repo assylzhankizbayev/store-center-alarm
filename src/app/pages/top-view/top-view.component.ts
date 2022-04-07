@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BuildingService } from '../../services/building.service';
 
 @Component({
@@ -10,13 +10,20 @@ import { BuildingService } from '../../services/building.service';
 export class TopViewComponent implements OnInit {
   blocks = this.buildingService.blocks;
   rows = this.buildingService.rows;
+  floorNumber: number | null = null;
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private buildingService: BuildingService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      const floorNumber = params.get('floorNumber');
+      this.floorNumber = floorNumber ? +floorNumber : 1;
+    });
+  }
 
   back() {
     this.router.navigate(['/home']);
