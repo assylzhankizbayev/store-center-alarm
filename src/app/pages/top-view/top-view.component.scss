@@ -1,0 +1,12 @@
+.row {
+  display: flex;
+}
+
+.top-view {
+  display: flex;
+  flex-direction: column;
+  background-color: #ccc;
+  border-width: 20px;
+  border-color: #000;
+  border-style: double;
+}

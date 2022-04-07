@@ -1,0 +1,7 @@
+<div class="container">
+  <app-side-view>
+    <app-floor *ngFor="let floor of floors" (click)="openSide()">
+      <app-block *ngFor="let block of blocks" [heightRatio]="0.7"></app-block>
+    </app-floor>
+  </app-side-view>
+</div>
