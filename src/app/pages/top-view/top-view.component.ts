@@ -8,9 +8,11 @@ import { BuildingService } from '../../services/building.service';
   styleUrls: ['./top-view.component.scss'],
 })
 export class TopViewComponent implements OnInit {
-  blocks = this.buildingService.blocks;
+  apartments = this.buildingService.apartments;
+  apartmentsInRow = this.buildingService.apartmentsInRow;
   rows = this.buildingService.rows;
-  floorNumber: number | null = null;
+  rowsCount = this.buildingService.rowsCount;
+  floorNumber: number = 1;
 
   constructor(
     private route: ActivatedRoute,

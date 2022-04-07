@@ -12,11 +12,23 @@
 
       <div class="top-view">
         <ng-container
-          *ngTemplateOutlet="row; context: { rows: rows }"
+          *ngTemplateOutlet="
+            row;
+            context: {
+              rows: rows,
+              flatStart: (floorNumber - 1) * apartmentsInRow * rowsCount
+            }
+          "
         ></ng-container>
         <app-corridor></app-corridor>
         <ng-container
-          *ngTemplateOutlet="row; context: { rows: rows }"
+          *ngTemplateOutlet="
+            row;
+            context: {
+              rows: rows,
+              flatStart: (floorNumber - 1) * apartmentsInRow * rowsCount + apartmentsInRow
+            }
+          "
         ></ng-container>
       </div>
     </div>
@@ -54,9 +66,13 @@
   </div>
 </div>
 
-<ng-template #row let-rows="rows">
+<ng-template #row let-rows="rows" let-flatStart="flatStart">
   <div class="blocks">
-    <app-block *ngFor="let block of blocks" [enabledClick]="true">
+    <app-block
+      *ngFor="let apartment of apartments; index as i"
+      [enabledClick]="true"
+      [flatNumber]="flatStart + i + 1"
+    >
       <app-icon class="icon" name="power" color="blue"></app-icon>
       <app-icon class="icon" name="fire" color="red"></app-icon>
     </app-block>

@@ -6,7 +6,10 @@
         (click)="openSide(floors.length - i)"
       >
         <span class="block-title">{{ floors.length - i }} этаж</span>
-        <app-block *ngFor="let block of blocks" [heightRatio]="0.7"></app-block>
+        <app-block
+          *ngFor="let apartment of apartments"
+          [heightRatio]="0.7"
+        ></app-block>
       </app-floor>
     </app-side-view>
 
@@ -16,6 +19,32 @@
       <div class="meter-info">
         <div class="meter-info__title">Электропотребление объекта</div>
         <div class="meter-info__value">1000 кВт/ч</div>
+      </div>
+
+      <app-icon class="icon-house" name="house" color="blue"></app-icon>
+
+      <div class="building-info">
+        <div class="building-info__item">
+          <div class="building-info__title">Количество этажей</div>
+          <div class="building-info__value">{{ floorsCount }}</div>
+        </div>
+
+        <div class="building-info__item">
+          <div class="building-info__title">Количество апартаментов</div>
+          <div class="building-info__value">
+            {{ floorsCount * apartmentsInRow * rowsCount }}
+          </div>
+        </div>
+
+        <div class="building-info__item">
+          <div class="building-info__title">Общее количество площади</div>
+          <div class="building-info__value">
+            {{
+              apartmentsSquare * apartmentsInRow * rowsCount * floorsCount
+            }}
+            кв.м.
+          </div>
+        </div>
       </div>
     </div>
   </div>

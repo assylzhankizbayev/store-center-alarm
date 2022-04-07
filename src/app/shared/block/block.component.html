@@ -6,6 +6,7 @@
   [style.borderWidth.px]="borderWidth"
 >
   <div class="inner-block">
+    <span *ngIf="enabledClick" class="flat-number">{{ flatNumber }}</span>
     <ng-content></ng-content>
   </div>
 </div>

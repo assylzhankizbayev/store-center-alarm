@@ -9,7 +9,12 @@ import { BuildingService } from 'src/app/services/building.service';
 })
 export class HomeComponent implements OnInit {
   floors = this.buildingService.floors;
-  blocks = this.buildingService.blocks;
+  floorsCount = this.buildingService.floorsCount;
+  apartments = this.buildingService.apartments;
+  apartmentsInRow = this.buildingService.apartmentsInRow;
+  rows = this.buildingService.rows;
+  rowsCount = this.buildingService.rowsCount;
+  apartmentsSquare = this.buildingService.apartmentsSquare;
 
   constructor(
     private router: Router,

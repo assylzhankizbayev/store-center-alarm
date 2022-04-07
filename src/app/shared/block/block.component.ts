@@ -12,6 +12,7 @@ export class BlockComponent implements OnInit {
   @Input() heightRatio = 1;
   @Input() borderWidth = 5;
   @Input() enabledClick = false;
+  @Input() flatNumber = 1;
 
   constructor() { }
 

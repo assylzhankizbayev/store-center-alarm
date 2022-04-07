@@ -11,3 +11,27 @@
   padding: 0 6rem;
   width: 100%;
 }
+
+.building-info {
+  display: flex;
+  font-size: 1.2rem;
+
+  &__item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  &__value {
+    font-weight: 500;
+    font-size: 1.5rem;
+  }
+}
+
+.icon-house {
+  margin: 2rem 0 1rem;
+  width: 42px;
+  height: 42px;
+}
