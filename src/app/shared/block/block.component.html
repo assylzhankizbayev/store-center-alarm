@@ -1,6 +1,11 @@
 <div
   class="block"
+  [class.enabled]="enabledClick"
   [style.height.px]="height * heightRatio"
   [style.width.px]="width * widthRatio"
   [style.borderWidth.px]="borderWidth"
-></div>
+>
+  <div class="inner-block">
+    <ng-content></ng-content>
+  </div>
+</div>

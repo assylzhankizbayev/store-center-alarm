@@ -1,6 +1,23 @@
 .block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: #fff;
   border-color: #000;
   border-style: solid;
   box-sizing: border-box;
+}
+
+.inner-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.enabled {
+  cursor: pointer;
+
+  &:hover {
+    border: 3px solid red;
+  }
 }

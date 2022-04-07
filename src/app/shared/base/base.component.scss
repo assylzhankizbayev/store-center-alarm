@@ -1,3 +1,7 @@
+:host {
+  text-align: center;
+}
+
 .base {
   background-color: #ddd;
   border-width: 10px;
@@ -6,4 +10,8 @@
   margin: 0 -50px;
   width: calc(100% + 100px);
   height: 5px;
+}
+
+.text {
+  font-size: 1.5rem;
 }

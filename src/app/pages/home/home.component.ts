@@ -19,10 +19,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  openSide() {
+  openSide(floorNumber: number) {
     console.log('click');
 
-    this.router.navigate(['/top']);
+    this.router.navigate(['/top', floorNumber]);
   }
 
 }

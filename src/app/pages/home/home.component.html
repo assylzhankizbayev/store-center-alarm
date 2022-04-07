@@ -1,6 +1,7 @@
 <div class="container">
   <app-side-view>
-    <app-floor *ngFor="let floor of floors" (click)="openSide()">
+    <app-floor *ngFor="let floor of floors; index as i" (click)="openSide(floors.length - i)">
+      <span class="block-title">{{ floors.length - i }} этаж</span>
       <app-block *ngFor="let block of blocks" [heightRatio]="0.7"></app-block>
     </app-floor>
   </app-side-view>

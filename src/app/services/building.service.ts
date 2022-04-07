@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class BuildingService {
   private floorsCount = 3;
+  private rowsCount = 2;
   private blocksInRow = 4;
 
   constructor() { }
@@ -15,5 +16,9 @@ export class BuildingService {
 
   get blocks() {
     return Array(this.blocksInRow);
+  }
+
+  get rows() {
+    return Array(this.rowsCount);
   }
 }

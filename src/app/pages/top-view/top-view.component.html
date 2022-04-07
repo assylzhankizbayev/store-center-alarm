@@ -1,11 +1,18 @@
 <div class="container">
+  <app-icon class="icon-back" name="back" color="#000" (click)="back()"></app-icon>
+
   <div class="top-view">
-    <div class="row">
-      <app-block *ngFor="let block of blocks"></app-block>
-    </div>
+    <ng-container *ngTemplateOutlet="row; context: { rows: rows }"></ng-container>
     <app-corridor></app-corridor>
-    <div class="row">
-      <app-block *ngFor="let block of blocks"></app-block>
-    </div>
+    <ng-container *ngTemplateOutlet="row; context: { rows: rows }"></ng-container>
   </div>
 </div>
+
+<ng-template #row let-rows="rows">
+  <div class="row">
+    <app-block *ngFor="let block of blocks" [enabledClick]="true">
+      <app-icon class="icon" name="power" color="blue"></app-icon>
+      <app-icon class="icon" name="fire" color="red"></app-icon>
+    </app-block>
+  </div>
+</ng-template>

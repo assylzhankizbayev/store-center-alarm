@@ -11,6 +11,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { TopViewComponent } from './pages/top-view/top-view.component';
 import { SideViewComponent } from './pages/side-view/side-view.component';
 import { CorridorComponent } from './shared/corridor/corridor.component';
+import { IconComponent } from './shared/icon/icon.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { CorridorComponent } from './shared/corridor/corridor.component';
     RoofComponent,
     BaseComponent,
     FloorComponent,
-    CorridorComponent
+    CorridorComponent,
+    IconComponent
   ],
   imports: [
     BrowserModule,

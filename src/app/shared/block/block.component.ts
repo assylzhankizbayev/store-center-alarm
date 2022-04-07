@@ -11,6 +11,7 @@ export class BlockComponent implements OnInit {
   @Input() widthRatio = 1;
   @Input() heightRatio = 1;
   @Input() borderWidth = 5;
+  @Input() enabledClick = false;
 
   constructor() { }
 

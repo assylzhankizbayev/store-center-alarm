@@ -1,3 +1,7 @@
+:host {
+  text-align: center;
+}
+
 .roof {
   background-color: #ddd;
   border-width: 7px;
@@ -5,4 +9,8 @@
   border-style: double;
   width: calc(100% - 14px);
   height: 10px;
+}
+
+.text {
+  font-size: 1.5rem;
 }

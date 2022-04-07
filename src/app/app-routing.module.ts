@@ -14,7 +14,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'top',
+    path: 'top/:floorNumber',
     component: TopViewComponent
   },
   {
