@@ -1,4 +1,4 @@
-<div class="container">
+<div class="page">
   <app-icon
     class="icon-back"
     name="back"
@@ -7,7 +7,7 @@
   ></app-icon>
 
   <div class="content">
-    <div class="col">
+    <div class="col-wrapper">
       <span class="text">Вид сверху ({{ floorNumber }} этаж)</span>
 
       <div class="top-view">
@@ -23,13 +23,39 @@
 
     <div class="info">
       <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
-      Электропотребление этажа 1000 кВт/ч
+
+      <div class="meter-info">
+        <div class="meter-info__title">Электропотребление этажа</div>
+        <div class="meter-info__value">1000 кВт/ч</div>
+      </div>
+
+      <div class="meter-info">
+        <div class="meter-info__title">Электропотребление комнаты</div>
+        <div class="meter-info__value">800 кВт/ч</div>
+      </div>
+
+      <div class="form">
+        <span class="form-title"></span>
+        <div class="input-group">
+          <div class="mb-3">
+            <label for="exampleFormControlInput1" class="form-label"
+              >Email address</label
+            >
+            <input
+              type="email"
+              class="form-control"
+              id="exampleFormControlInput1"
+              placeholder="name@example.com"
+            />
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
 <ng-template #row let-rows="rows">
-  <div class="row">
+  <div class="blocks">
     <app-block *ngFor="let block of blocks" [enabledClick]="true">
       <app-icon class="icon" name="power" color="blue"></app-icon>
       <app-icon class="icon" name="fire" color="red"></app-icon>

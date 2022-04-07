@@ -1,4 +1,6 @@
-.container {
+@import "~bootstrap/dist/css/bootstrap.min.css";
+
+.page {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,12 +13,32 @@
   font-size: 1.5rem;
 }
 
-.content {
-  display: flex;
-}
-
 .icon-meter {
   margin: 0 0 1rem;
   width: 64px;
   height: 64px;
+}
+
+.meter-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  & + & {
+    margin: 1.5rem 0 0;
+  }
+
+  &__value {
+    font-weight: 500;
+  }
+}
+
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  margin: 3rem 0 0 7rem;
 }

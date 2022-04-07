@@ -1,15 +1,13 @@
 .block-title {
   font-size: 1.5rem;
   position: absolute;
-  left: -11%;
+  left: -12%;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.info {
+.content {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 1.5rem;
-  margin: 3rem 0 0 8rem;
+  padding: 0 6rem;
+  width: 100%;
 }
