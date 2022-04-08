@@ -1,4 +1,10 @@
 export interface IAlarm {
-  timer?: number;
   flatNumber: number;
+  timer?: number;
+  type?: string;
+}
+
+export enum TimerAlarmType {
+  Electricity = 'electricity',
+  Fire = 'fire',
 }

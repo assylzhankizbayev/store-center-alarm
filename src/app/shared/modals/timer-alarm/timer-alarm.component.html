@@ -1,0 +1,47 @@
+<div class="timer-alarm" [formGroup]="form">
+  <div class="timer-alarm__header">Выберите сценарии</div>
+
+  <mat-radio-group
+    class="timer-alarm__radio"
+    aria-label="Выберите сценарии"
+    formControlName="type"
+  >
+    <mat-radio-button value="fire">Пожар</mat-radio-button>
+    <mat-radio-button value="electricity">Замыкание</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-form-field class="timer-alarm__select" appearance="fill">
+    <mat-label>Выберите номер апартамента</mat-label>
+    <mat-select formControlName="flatNumber">
+      <mat-option
+        *ngFor="let apartment of totalApartments; index as i"
+        [value]="i + 1"
+      >
+        {{ i + 1 }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="timer-alarm__timer" appearance="outline">
+    <mat-label>Таймер, с</mat-label>
+    <input
+      type="number"
+      matInput
+      placeholder="Задайте таймер в секундах"
+      formControlName="timer"
+    />
+  </mat-form-field>
+
+  <div class="timer-alarm__controls">
+    <button mat-raised-button type="button" (click)="close()">Отмена</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      [disabled]="form.invalid"
+      (click)="close(form.value)"
+    >
+      Подтвердить
+    </button>
+  </div>
+</div>

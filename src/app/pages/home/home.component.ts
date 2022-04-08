@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BuildingService } from 'src/app/services/building.service';
+import { BuildingService } from '../../services/building.service';
 
 @Component({
   selector: 'app-home',
@@ -25,8 +25,6 @@ export class HomeComponent implements OnInit {
   }
 
   openSide(floorNumber: number) {
-    console.log('click');
-
     this.router.navigate(['/top', floorNumber]);
   }
 

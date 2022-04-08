@@ -1,0 +1,18 @@
+.alarm {
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  cursor: pointer;
+
+  &-text {
+    font-size: 1.5rem;
+    margin: 0 0 0 0.5rem;
+
+    &.alert {
+      color: red;
+    }
+  }
+}

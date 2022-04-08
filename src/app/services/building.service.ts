@@ -27,6 +27,10 @@ export class BuildingService {
     return Array(this.rowsCount);
   }
 
+  get totalApartments() {
+    return Array(this.rowsCount * this.floorsCount * this.apartmentsInRow);
+  }
+
   get fireAlarm() {
     return this.fireAlarm$.asObservable();
   }

@@ -1,0 +1,11 @@
+<div class="alarm" (click)="openAlarm()">
+  <app-icon name="alarm" color="blue"></app-icon>
+  <ng-container *ngIf="fireAlarm$ | async as timer; else choseAlert">
+    <span class="alarm-text" [class.alert]="!timer?.timer">
+      {{ timer?.timer ? timer?.timer : ('Пожар на ' + timer?.flatNumber + ' апартаменте') }}
+    </span>
+  </ng-container>
+  <ng-template #choseAlert>
+    <span class="alarm-text">Задать сценарии</span>
+  </ng-template>
+</div>
