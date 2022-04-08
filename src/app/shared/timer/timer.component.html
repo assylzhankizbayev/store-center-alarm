@@ -3,7 +3,7 @@
   <ng-container *ngIf="alarm$ | async as timer; else choseAlert">
     <span class="alarm-text" [class.alert]="!timer?.timer">
       {{
-        timer?.timer
+        timer?.timer && !(alarmCalled$ | async)
           ? timer?.timer
           : (timer?.type === TIMER_ALARM.Fire ? "Пожар " : "Замыкание ") +
             "на " +

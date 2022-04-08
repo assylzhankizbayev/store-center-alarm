@@ -34,23 +34,31 @@ export class BuildingService {
 
   get alarm() {
     return this.alarm$.asObservable().pipe(
-      filter((res) => {
-        console.log(!!res, res);
-        return !!res;
-      }),
+      filter((res) => !!res),
       mergeMap((res) =>
-        timer(0, 1000).pipe(
-          filter((time) => (res?.timer ? res?.timer - time : 0) >= 0),
-          map((time) => {
-            const timer = res?.timer ? res?.timer - time : 0;
-            console.log(timer);
-            return { ...res, timer };
-          }),
-          tap((res) => {
-            if (res) {
-              this.alarmCalled$.next(true);
-            }
-          })
+        this.alarmCalled.pipe(
+          mergeMap((isCalled) =>
+            isCalled
+              ? of(res)
+              : of(res).pipe(
+                  mergeMap((ress) =>
+                    timer(0, 1000).pipe(
+                      filter(
+                        (time) => (ress?.timer ? ress?.timer - time : 0) >= 0
+                      ),
+                      map((time) => {
+                        const timer = ress?.timer ? ress?.timer - time : 0;
+                        return { ...res, timer };
+                      }),
+                      tap((res) => {
+                        if (!res.timer) {
+                          this.alarmCalled$.next(true);
+                        }
+                      })
+                    )
+                  )
+                )
+          )
         )
       )
     );

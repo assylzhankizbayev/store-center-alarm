@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TimerAlarmType } from '../../models/building.model';
 import { BuildingService } from '../../services/building.service';
 
 @Component({
@@ -8,6 +9,8 @@ import { BuildingService } from '../../services/building.service';
   styleUrls: ['./top-view.component.scss'],
 })
 export class TopViewComponent implements OnInit {
+  TIMER_ALARM = TimerAlarmType;
+  alarm$ = this.buildingService.alarm;
   apartments = this.buildingService.apartments;
   apartmentsInRow = this.buildingService.apartmentsInRow;
   rows = this.buildingService.rows;
