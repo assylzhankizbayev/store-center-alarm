@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, timer } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { IAlarm } from '../models/building.model';
+import { IAlarm, IApartment } from '../models/building.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,21 @@ export class BuildingService {
   apartmentsSquare = 40;
   private alarm$ = new BehaviorSubject<IAlarm | null>(null);
   private alarmCalled$ = new BehaviorSubject<boolean>(false);
+  apartmentList: IApartment[] = [];
 
-  constructor() {}
+  constructor() {
+    for (
+      let i = 0;
+      i < this.floorsCount * this.apartmentsInRow * this.rowsCount;
+      i++
+    ) {
+      this.apartmentList.push({
+        flatNumber: i + 1,
+        rate: (Math.floor(Math.random() * 15) + 1) * 100,
+      });
+    }
+    console.log('apartmentList', this.apartmentList);
+  }
 
   get floors() {
     return Array(this.floorsCount);

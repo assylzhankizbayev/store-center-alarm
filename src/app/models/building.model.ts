@@ -8,3 +8,9 @@ export enum TimerAlarmType {
   Electricity = 'electricity',
   Fire = 'fire',
 }
+
+
+export interface IApartment {
+  flatNumber: number;
+  rate: number;
+}

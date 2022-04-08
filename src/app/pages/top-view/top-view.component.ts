@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TimerAlarmType } from '../../models/building.model';
+import { IApartment, TimerAlarmType } from '../../models/building.model';
 import { BuildingService } from '../../services/building.service';
 
 @Component({
@@ -36,5 +36,26 @@ export class TopViewComponent implements OnInit {
 
   back() {
     this.router.navigate(['/home']);
+  }
+
+  getRate(flatNumber: number): number {
+    const aparment = this.buildingService.apartmentList?.find((apartment) => {
+      return apartment.flatNumber === flatNumber;
+    });
+
+    return aparment ? aparment.rate : 0;
+  }
+
+  getFloorRate(): number {
+    const start =
+      (this.floorNumber - 1) * this.rowsCount * this.apartmentsInRow + 1;
+    const end = this.floorNumber * this.rowsCount * this.apartmentsInRow;
+    const totalRateOfFloor = this.buildingService.apartmentList
+      ?.filter(
+        (aparment) => aparment.flatNumber >= start && aparment.flatNumber <= end
+      )
+      ?.reduce((sum, aparment) => sum + aparment.rate, 0);
+
+    return totalRateOfFloor || 0;
   }
 }

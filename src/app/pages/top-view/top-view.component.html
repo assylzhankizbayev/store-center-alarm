@@ -15,7 +15,6 @@
           *ngTemplateOutlet="
             row;
             context: {
-              rows: rows,
               flatStart: (floorNumber - 1) * apartmentsInRow * rowsCount
             }
           "
@@ -25,7 +24,6 @@
           *ngTemplateOutlet="
             row;
             context: {
-              rows: rows,
               flatStart:
                 (floorNumber - 1) * apartmentsInRow * rowsCount +
                 apartmentsInRow
@@ -39,16 +37,16 @@
       <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
 
       <div class="meter-info">
-        <div class="meter-info__title">Электропотребление этажа</div>
-        <div class="meter-info__value">1000 кВт/ч</div>
+        <div class="meter-info__title">Электропотребление ({{ floorNumber }} этажа)</div>
+        <div class="meter-info__value">{{ getFloorRate() }} кВт/ч</div>
       </div>
 
-      <div class="meter-info">
+      <!-- <div class="meter-info">
         <div class="meter-info__title">Электропотребление комнаты</div>
         <div class="meter-info__value">800 кВт/ч</div>
-      </div>
+      </div> -->
 
-      <div class="form">
+      <!-- <div class="form">
         <span class="form-title"></span>
         <div class="input-group">
           <div class="mb-3">
@@ -63,19 +61,19 @@
             />
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
 
-<ng-template #row let-rows="rows" let-flatStart="flatStart">
+<ng-template #row let-flatStart="flatStart">
   <div class="blocks">
     <app-block
       *ngFor="let apartment of apartments; index as i"
       [enabledClick]="true"
       [flatNumber]="flatStart + i + 1"
     >
-      <ng-container *ngIf="alarm$ | async as alarm">
+      <ng-container *ngIf="alarm$ | async as alarm; else showRate">
         <div *ngIf="alarm.flatNumber === flatStart + i + 1" (click)="reset()">
           <app-icon
             *ngIf="alarm.type === TIMER_ALARM.Electricity"
@@ -91,6 +89,12 @@
           ></app-icon>
         </div>
       </ng-container>
+      <ng-template #showRate>
+        <div class="rate">
+          <app-icon class="icon-meter--sm" name="meter" color="blue"></app-icon>
+          {{ getRate(flatStart + i + 1) }} кВт/ч
+        </div>
+      </ng-template>
     </app-block>
   </div>
 </ng-template>

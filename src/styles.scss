@@ -52,6 +52,11 @@ $store-center-theme: mat.define-light-theme((
   margin: 0 0 1rem;
   width: 50px;
   height: 50px;
+
+  &--sm {
+    width: 32px;
+    height: 32px;
+  }
 }
 
 .meter-info {

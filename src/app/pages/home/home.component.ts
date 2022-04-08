@@ -5,7 +5,7 @@ import { BuildingService } from '../../services/building.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   floors = this.buildingService.floors;
@@ -19,13 +19,20 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private buildingService: BuildingService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   openSide(floorNumber: number) {
     this.router.navigate(['/top', floorNumber]);
   }
 
+  getFloorRate(): number {
+    const totalRate = this.buildingService.apartmentList?.reduce(
+      (sum, aparment) => sum + aparment.rate,
+      0
+    );
+
+    return totalRate || 0;
+  }
 }
