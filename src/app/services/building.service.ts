@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, of, timer } from 'rxjs';
-import { filter, map, mergeMap, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { IAlarm } from '../models/building.model';
 
 @Injectable({
@@ -34,38 +34,50 @@ export class BuildingService {
 
   get alarm() {
     return this.alarm$.asObservable().pipe(
-      filter((res) => !!res),
-      mergeMap((res) =>
-        this.alarmCalled.pipe(
-          mergeMap((isCalled) =>
-            isCalled
-              ? of(res)
-              : of(res).pipe(
-                  mergeMap((ress) =>
-                    timer(0, 1000).pipe(
-                      filter(
-                        (time) => (ress?.timer ? ress?.timer - time : 0) >= 0
-                      ),
-                      map((time) => {
-                        const timer = ress?.timer ? ress?.timer - time : 0;
-                        return { ...res, timer };
-                      }),
-                      tap((res) => {
-                        if (!res.timer) {
-                          this.alarmCalled$.next(true);
-                        }
+      // filter((res) => !!res),
+      mergeMap((res) => {
+        // console.log('------------', res);
+        return !!res
+          ? this.alarmCalled.pipe(
+              switchMap((isCalled) => {
+                return isCalled
+                  ? of(res)
+                  : of(res).pipe(
+                      switchMap((ress) => {
+                        // console.log(ress);
+                        return timer(0, 1000).pipe(
+                          filter(
+                            (time) =>
+                              (ress?.timer ? ress?.timer - time : 0) >= 0
+                          ),
+                          map((time) => {
+                            const timer = ress?.timer ? ress?.timer - time : 0;
+                            return { ...ress, timer };
+                          }),
+                          tap((res) => {
+                            if (!res.timer) {
+                              this.alarmCalled$.next(true);
+                            }
+                          })
+                        );
                       })
-                    )
-                  )
-                )
-          )
-        )
-      )
+                    );
+              })
+            )
+          : of(null);
+      })
     );
   }
 
   get alarmCalled() {
     return this.alarmCalled$.asObservable();
+  }
+
+  resetAlarm() {
+    console.log('reset');
+
+    this.alarm$.next(null);
+    this.alarmCalled$.next(false);
   }
 
   setAlarm(data: IAlarm) {

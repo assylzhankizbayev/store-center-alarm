@@ -30,6 +30,10 @@ export class TopViewComponent implements OnInit {
     });
   }
 
+  reset() {
+    this.buildingService.resetAlarm();
+  }
+
   back() {
     this.router.navigate(['/home']);
   }
