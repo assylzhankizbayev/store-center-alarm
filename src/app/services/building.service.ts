@@ -33,12 +33,11 @@ export class BuildingService {
   }
 
   get alarm() {
-    return this.alarmCalled.pipe(
-      mergeMap(isCalled => isCalled ? of(null) : this.alarm$.asObservable()),
-      // filter((res) => {
-      //   console.log(!!res, res)
-      //   return !!res
-      // }),
+    return this.alarm$.asObservable().pipe(
+      filter((res) => {
+        console.log(!!res, res);
+        return !!res;
+      }),
       mergeMap((res) =>
         timer(0, 1000).pipe(
           filter((time) => (res?.timer ? res?.timer - time : 0) >= 0),
