@@ -74,7 +74,7 @@
       [flatNumber]="flatStart + i + 1"
     >
       <ng-container *ngIf="alarm$ | async as alarm; else showRate">
-        <div *ngIf="alarm.flatNumber === flatStart + i + 1" (click)="reset()">
+        <div *ngIf="alarm.flatNumber === flatStart + i + 1; else showRate" (click)="reset()">
           <app-icon
             *ngIf="alarm.type === TIMER_ALARM.Electricity"
             class="icon"
