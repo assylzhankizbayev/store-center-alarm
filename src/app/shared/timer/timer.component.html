@@ -1,8 +1,15 @@
 <div class="alarm" (click)="openAlarm()">
   <app-icon name="alarm" color="blue"></app-icon>
-  <ng-container *ngIf="fireAlarm$ | async as timer; else choseAlert">
+  <ng-container *ngIf="alarm$ | async as timer; else choseAlert">
     <span class="alarm-text" [class.alert]="!timer?.timer">
-      {{ timer?.timer ? timer?.timer : ('Пожар на ' + timer?.flatNumber + ' апартаменте') }}
+      {{
+        timer?.timer
+          ? timer?.timer
+          : (timer?.type === TIMER_ALARM.Fire ? "Пожар " : "Замыкание ") +
+            "на " +
+            timer?.flatNumber +
+            " апартаменте"
+      }}
     </span>
   </ng-container>
   <ng-template #choseAlert>

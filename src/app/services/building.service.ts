@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of, timer } from 'rxjs';
+import { filter, map, mergeMap, tap } from 'rxjs/operators';
 import { IAlarm } from '../models/building.model';
 
 @Injectable({
@@ -10,8 +11,8 @@ export class BuildingService {
   rowsCount = 2;
   apartmentsInRow = 4;
   apartmentsSquare = 40;
-  private fireAlarm$ = new BehaviorSubject<IAlarm | null>(null);
-  private electricAlarm$ = new BehaviorSubject<any>(null);
+  private alarm$ = new BehaviorSubject<IAlarm | null>(null);
+  private alarmCalled$ = new BehaviorSubject<boolean>(false);
 
   constructor() {}
 
@@ -31,19 +32,36 @@ export class BuildingService {
     return Array(this.rowsCount * this.floorsCount * this.apartmentsInRow);
   }
 
-  get fireAlarm() {
-    return this.fireAlarm$.asObservable();
+  get alarm() {
+    return this.alarmCalled.pipe(
+      mergeMap(isCalled => isCalled ? of(null) : this.alarm$.asObservable()),
+      // filter((res) => {
+      //   console.log(!!res, res)
+      //   return !!res
+      // }),
+      mergeMap((res) =>
+        timer(0, 1000).pipe(
+          filter((time) => (res?.timer ? res?.timer - time : 0) >= 0),
+          map((time) => {
+            const timer = res?.timer ? res?.timer - time : 0;
+            console.log(timer);
+            return { ...res, timer };
+          }),
+          tap((res) => {
+            if (res) {
+              this.alarmCalled$.next(true);
+            }
+          })
+        )
+      )
+    );
   }
 
-  get electricAlarm() {
-    return this.electricAlarm$.asObservable();
+  get alarmCalled() {
+    return this.alarmCalled$.asObservable();
   }
 
-  setFireAlarm(timer: number, flatNumber: number) {
-    this.fireAlarm$.next({ timer, flatNumber });
-  }
-
-  setElectricAlarm(timer: number, flatNumber: number) {
-    this.electricAlarm$.next({ timer, flatNumber });
+  setAlarm(data: IAlarm) {
+    this.alarm$.next(data);
   }
 }
