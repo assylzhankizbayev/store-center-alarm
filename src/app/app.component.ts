@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { takeUntil, tap } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { BuildingService } from './services/building.service';
 
 @Component({
@@ -17,14 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.buildingService
       .getShopList()
-      .pipe(
-        tap((res) => {
-          if (res?.result?.length) {
-            this.buildingService.setShopList(res.result);
-          }
-        }),
-        takeUntil(this.destroy$)
-      )
+      .pipe(takeUntil(this.destroy$))
       .subscribe();
   }
 

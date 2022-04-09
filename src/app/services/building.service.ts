@@ -8,6 +8,7 @@ import {
   IShop,
   IShopByNumber,
   IShopList,
+  ISuccess,
 } from '../models/building.model';
 
 @Injectable({
@@ -38,15 +39,20 @@ export class BuildingService {
   }
 
   getShopList(): Observable<IShopList> {
-    return this.http.get<IShopList>(this.url + '/shop');
+    return this.http.get<IShopList>(this.url + '/shop').pipe(
+      filter((res) => res?.success && res?.result?.length > 0),
+      tap((res) => this.setShopList(res.result))
+    );
   }
 
   getShopByNumber(shopNumber: string): Observable<IShopByNumber> {
     return this.http.get<IShopByNumber>(this.url + `/shop/${shopNumber}`);
   }
 
-  updateShopByNumber(data: IShop): Observable<any> {
-    return this.http.put<any>(this.url + `/shop`, data);
+  updateShopByNumber(data: IShop): Observable<ISuccess> {
+    return this.http
+      .put<ISuccess>(this.url + `/shop`, data)
+      .pipe(switchMap(() => this.getShopList()));
   }
 
   setShopList(data: IShop[]) {

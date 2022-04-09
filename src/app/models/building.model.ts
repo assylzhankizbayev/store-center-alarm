@@ -27,3 +27,7 @@ export interface IShop {
   square?: number;
   electricityUsage: number;
 }
+
+export interface ISuccess {
+  success: boolean;
+}
