@@ -1,3 +1,5 @@
+{{ row1$ | async }}
+{{ row2$ | async }}
 <div class="page">
   <app-icon
     class="icon-back"
@@ -12,23 +14,11 @@
 
       <div class="top-view">
         <ng-container
-          *ngTemplateOutlet="
-            row;
-            context: {
-              flatStart: (floorNumber - 1) * apartmentsInRow * rowsCount
-            }
-          "
+          *ngTemplateOutlet="row; context: { shops: row1$ | async }"
         ></ng-container>
         <app-corridor></app-corridor>
         <ng-container
-          *ngTemplateOutlet="
-            row;
-            context: {
-              flatStart:
-                (floorNumber - 1) * apartmentsInRow * rowsCount +
-                apartmentsInRow
-            }
-          "
+          *ngTemplateOutlet="row; context: { shops: row2$ | async }"
         ></ng-container>
       </div>
     </div>
@@ -37,44 +27,27 @@
       <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
 
       <div class="meter-info">
-        <div class="meter-info__title">Электропотребление ({{ floorNumber }} этажа)</div>
-        <div class="meter-info__value">{{ getFloorRate() }} кВт/ч</div>
-      </div>
-
-      <!-- <div class="meter-info">
-        <div class="meter-info__title">Электропотребление комнаты</div>
-        <div class="meter-info__value">800 кВт/ч</div>
-      </div> -->
-
-      <!-- <div class="form">
-        <span class="form-title"></span>
-        <div class="input-group">
-          <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label"
-              >Email address</label
-            >
-            <input
-              type="email"
-              class="form-control"
-              id="exampleFormControlInput1"
-              placeholder="name@example.com"
-            />
-          </div>
+        <div class="meter-info__title">
+          Электропотребление ({{ floorNumber }} этажа)
         </div>
-      </div> -->
+        <div class="meter-info__value">{{ getFloorRate$ | async }} кВт/ч</div>
+      </div>
     </div>
   </div>
 </div>
 
-<ng-template #row let-flatStart="flatStart">
+<ng-template #row let-shops="shops">
   <div class="blocks">
     <app-block
-      *ngFor="let apartment of apartments; index as i"
+      *ngFor="let shop of shops; index as i"
       [enabledClick]="true"
-      [flatNumber]="flatStart + i + 1"
+      [flatNumber]="shop.number"
     >
       <ng-container *ngIf="alarm$ | async as alarm; else showRate">
-        <div *ngIf="alarm.flatNumber === flatStart + i + 1; else showRate" (click)="reset()">
+        <div
+          *ngIf="alarm.flatNumber === shop.number; else showRate"
+          (click)="reset()"
+        >
           <app-icon
             *ngIf="alarm.type === TIMER_ALARM.Electricity"
             class="icon"
@@ -92,7 +65,7 @@
       <ng-template #showRate>
         <div class="rate">
           <app-icon class="icon-meter--sm" name="meter" color="blue"></app-icon>
-          {{ getRate(flatStart + i + 1) }} кВт/ч
+          {{ shop.electricityUsage }} кВт/ч
         </div>
       </ng-template>
     </app-block>

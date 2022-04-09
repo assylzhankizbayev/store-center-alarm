@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IApartment, TimerAlarmType } from '../../models/building.model';
+import { map, mergeMap } from 'rxjs/operators';
+import { TimerAlarmType } from '../../models/building.model';
 import { BuildingService } from '../../services/building.service';
 
 @Component({
@@ -17,18 +18,85 @@ export class TopViewComponent implements OnInit {
   rowsCount = this.buildingService.rowsCount;
   floorNumber: number = 1;
 
+  row1$ = this.route.paramMap.pipe(
+    mergeMap((params) => {
+      const floorNumber = params.get('floorNumber');
+      this.floorNumber = floorNumber ? +floorNumber : 1;
+
+      return this.buildingService.shopList.pipe(
+        map((shops) =>
+          shops.filter((shop) => {
+            const shopNumber = +shop.number;
+            const start =
+              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+              1;
+            const end =
+              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+              this.apartmentsInRow;
+
+            return shopNumber >= start && shopNumber <= end;
+          })
+        )
+      );
+    })
+  );
+
+  row2$ = this.route.paramMap.pipe(
+    mergeMap((params) => {
+      const floorNumber = params.get('floorNumber');
+      this.floorNumber = floorNumber ? +floorNumber : 1;
+
+      return this.buildingService.shopList.pipe(
+        map((shops) =>
+          shops.filter((shop) => {
+            const shopNumber = +shop.number;
+            const start =
+              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+              this.apartmentsInRow +
+              1;
+            const end =
+              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+              2 * this.apartmentsInRow;
+
+            return shopNumber >= start && shopNumber <= end;
+          })
+        )
+      );
+    })
+  );
+
+  getFloorRate$ = this.route.paramMap.pipe(
+    mergeMap((params) => {
+      const floorNumber = params.get('floorNumber');
+      this.floorNumber = floorNumber ? +floorNumber : 1;
+
+      return this.buildingService.shopList.pipe(
+        map((shops) =>
+          shops
+            .filter((shop) => {
+              const shopNumber = +shop.number;
+              const start =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                1;
+              const end =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                2 * this.apartmentsInRow;
+
+              return shopNumber >= start && shopNumber <= end;
+            })
+            .reduce((sum, shop) => sum + shop.electricityUsage, 0)
+        )
+      );
+    })
+  );
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private buildingService: BuildingService
   ) {}
 
-  ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
-      const floorNumber = params.get('floorNumber');
-      this.floorNumber = floorNumber ? +floorNumber : 1;
-    });
-  }
+  ngOnInit(): void {}
 
   reset() {
     this.buildingService.resetAlarm();
@@ -38,24 +106,24 @@ export class TopViewComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  getRate(flatNumber: number): number {
-    const aparment = this.buildingService.apartmentList?.find((apartment) => {
-      return apartment.flatNumber === flatNumber;
-    });
+  // getRate(flatNumber: number): number {
+  //   const aparment = this.buildingService.apartmentList?.find((apartment) => {
+  //     return apartment.flatNumber === flatNumber;
+  //   });
 
-    return aparment ? aparment.rate : 0;
-  }
+  //   return aparment ? aparment.rate : 0;
+  // }
 
-  getFloorRate(): number {
-    const start =
-      (this.floorNumber - 1) * this.rowsCount * this.apartmentsInRow + 1;
-    const end = this.floorNumber * this.rowsCount * this.apartmentsInRow;
-    const totalRateOfFloor = this.buildingService.apartmentList
-      ?.filter(
-        (aparment) => aparment.flatNumber >= start && aparment.flatNumber <= end
-      )
-      ?.reduce((sum, aparment) => sum + aparment.rate, 0);
+  // getFloorRate(): number {
+  //   const start =
+  //     (this.floorNumber - 1) * this.rowsCount * this.apartmentsInRow + 1;
+  //   const end = this.floorNumber * this.rowsCount * this.apartmentsInRow;
+  //   const totalRateOfFloor = this.buildingService.apartmentList
+  //     ?.filter(
+  //       (aparment) => aparment.flatNumber >= start && aparment.flatNumber <= end
+  //     )
+  //     ?.reduce((sum, aparment) => sum + aparment.rate, 0);
 
-    return totalRateOfFloor || 0;
-  }
+  //   return totalRateOfFloor || 0;
+  // }
 }

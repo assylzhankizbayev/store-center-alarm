@@ -20,7 +20,9 @@
 
       <div class="meter-info">
         <div class="meter-info__title">Электропотребление объекта</div>
-        <div class="meter-info__value">{{ getFloorRate() }} кВт/ч</div>
+        <div class="meter-info__value" *ngIf="getFloorRate$ | async as rate">
+          {{ rate }} кВт/ч
+        </div>
       </div>
 
       <app-icon class="icon-house" name="house" color="blue"></app-icon>

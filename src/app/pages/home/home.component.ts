@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { BuildingService } from '../../services/building.service';
 
 @Component({
@@ -27,12 +28,8 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/top', floorNumber]);
   }
 
-  getFloorRate(): number {
-    const totalRate = this.buildingService.apartmentList?.reduce(
-      (sum, aparment) => sum + aparment.rate,
-      0
-    );
-
-    return totalRate || 0;
-  }
+  getFloorRate$ = this.buildingService.shopList.pipe(
+    filter((shop) => shop?.length > 0),
+    map((shop) => shop.reduce((sum, shop) => sum + shop.electricityUsage, 0))
+  );
 }

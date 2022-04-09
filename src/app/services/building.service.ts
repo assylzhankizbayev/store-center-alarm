@@ -1,7 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of, timer } from 'rxjs';
+import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
-import { IAlarm, IApartment } from '../models/building.model';
+import { environment } from '../../environments/environment';
+import { IAlarm, IShop, IShopList } from '../models/building.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,20 +15,34 @@ export class BuildingService {
   apartmentsSquare = 40;
   private alarm$ = new BehaviorSubject<IAlarm | null>(null);
   private alarmCalled$ = new BehaviorSubject<boolean>(false);
-  apartmentList: IApartment[] = [];
+  // private shopList: IShop[] = [];
+  private shopList$ = new BehaviorSubject<IShop[]>([]);
+  url = environment.host;
 
-  constructor() {
-    for (
-      let i = 0;
-      i < this.floorsCount * this.apartmentsInRow * this.rowsCount;
-      i++
-    ) {
-      this.apartmentList.push({
-        flatNumber: i + 1,
-        rate: (Math.floor(Math.random() * 15) + 1) * 100,
-      });
-    }
-    console.log('apartmentList', this.apartmentList);
+  constructor(private http: HttpClient) {
+    // for (
+    //   let i = 0;
+    //   i < this.floorsCount * this.apartmentsInRow * this.rowsCount;
+    //   i++
+    // ) {
+    //   this.apartmentList.push({
+    //     flatNumber: i + 1,
+    //     rate: (Math.floor(Math.random() * 15) + 1) * 100,
+    //   });
+    // }
+    // console.log('apartmentList', this.apartmentList);
+  }
+
+  getShopList(): Observable<IShopList> {
+    return this.http.get<IShopList>(this.url + '/shop');
+  }
+
+  setShopList(data: IShop[]) {
+    this.shopList$.next(data);
+  }
+
+  get shopList() {
+    return this.shopList$.asObservable();
   }
 
   get floors() {

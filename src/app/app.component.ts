@@ -1,10 +1,35 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil, tap } from 'rxjs/operators';
+import { BuildingService } from './services/building.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'store-center';
+  destroy$ = new Subject();
+
+  constructor(private buildingService: BuildingService) {}
+
+  ngOnInit(): void {
+    this.buildingService
+      .getShopList()
+      .pipe(
+        tap((res) => {
+          if (res?.result?.length) {
+            this.buildingService.setShopList(res.result);
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
+  }
 }
