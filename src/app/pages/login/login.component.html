@@ -1,0 +1,26 @@
+<form class="login-page" [formGroup]="form" (ngSubmit)="login()">
+  <mat-form-field appearance="outline">
+    <mat-label>Номер телефона</mat-label>
+    <input
+      matInput
+      placeholder="Номер телефона"
+      mask=" (000) 000 0000"
+      prefix="+7"
+      formControlName="phone"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Пароль</mat-label>
+    <input
+      matInput
+      type="password"
+      placeholder="Пароль"
+      formControlName="password"
+    />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary">Войти</button>
+
+  <span *ngIf="error" class="error">Ошибка авторизации</span>
+</form>

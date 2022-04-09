@@ -24,6 +24,9 @@ import { TimerAlarmComponent } from './shared/modals/timer-alarm/timer-alarm.com
 import { TimerComponent } from './shared/timer/timer.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EditShopComponent } from './shared/modals/edit-shop/edit-shop.component';
+import { LoginComponent } from './pages/login/login.component';
+import { NgxMaskModule } from 'ngx-mask';
+import { AuthGuard } from './guards/auth.guard';
 
 @NgModule({
   declarations: [
@@ -40,6 +43,7 @@ import { EditShopComponent } from './shared/modals/edit-shop/edit-shop.component
     TimerAlarmComponent,
     TimerComponent,
     EditShopComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,8 +57,9 @@ import { EditShopComponent } from './shared/modals/edit-shop/edit-shop.component
     MatInputModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot(),
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

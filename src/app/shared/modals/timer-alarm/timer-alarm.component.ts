@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IAlarm } from 'src/app/models/building.model';
+import { IAlarm } from '../../../models/building.model';
 import { BuildingService } from '../../../services/building.service';
 
 @Component({
