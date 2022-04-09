@@ -19,7 +19,7 @@
       <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
 
       <div class="meter-info">
-        <div class="meter-info__title">Электропотребление объекта</div>
+        <div class="meter-info__title">Электропотребление торгового центра</div>
         <div class="meter-info__value" *ngIf="getFloorRate$ | async as rate">
           {{ rate }} кВт/ч
         </div>
@@ -34,7 +34,7 @@
         </div>
 
         <div class="building-info__item">
-          <div class="building-info__title">Количество апартаментов</div>
+          <div class="building-info__title">Количество магазинов</div>
           <div class="building-info__value">
             {{ floorsCount * apartmentsInRow * rowsCount }}
           </div>

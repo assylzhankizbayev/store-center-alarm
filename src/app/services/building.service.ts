@@ -3,7 +3,12 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, timer } from 'rxjs';
 import { filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { IAlarm, IShop, IShopList } from '../models/building.model';
+import {
+  IAlarm,
+  IShop,
+  IShopByNumber,
+  IShopList,
+} from '../models/building.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +20,6 @@ export class BuildingService {
   apartmentsSquare = 40;
   private alarm$ = new BehaviorSubject<IAlarm | null>(null);
   private alarmCalled$ = new BehaviorSubject<boolean>(false);
-  // private shopList: IShop[] = [];
   private shopList$ = new BehaviorSubject<IShop[]>([]);
   url = environment.host;
 
@@ -35,6 +39,14 @@ export class BuildingService {
 
   getShopList(): Observable<IShopList> {
     return this.http.get<IShopList>(this.url + '/shop');
+  }
+
+  getShopByNumber(shopNumber: string): Observable<IShopByNumber> {
+    return this.http.get<IShopByNumber>(this.url + `/shop/${shopNumber}`);
+  }
+
+  updateShopByNumber(data: IShop): Observable<any> {
+    return this.http.put<any>(this.url + `/shop`, data);
   }
 
   setShopList(data: IShop[]) {

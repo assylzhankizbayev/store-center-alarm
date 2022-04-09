@@ -10,14 +10,14 @@ export enum TimerAlarmType {
   Fire = 'fire',
 }
 
-// export interface IApartment {
-//   flatNumber: number;
-//   rate: number;
-// }
-
 export interface IShopList {
-  success: true;
+  success: boolean;
   result: IShop[];
+}
+
+export interface IShopByNumber {
+  success: boolean;
+  result: IShop;
 }
 
 export interface IShop {

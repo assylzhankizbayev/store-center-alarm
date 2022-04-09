@@ -1,4 +1,4 @@
-.timer-alarm {
+.edit-shop {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -10,15 +10,7 @@
     margin: 0 0 2rem;
   }
 
-  &__radio {
-    display: flex;
-    justify-content: space-around;
-    margin: 0 0 2rem;
-    width: 100%;
-  }
-
-  &__select,
-  &__timer {
+  &__number {
     margin: 0 0 1rem;
     width: 100%;
   }

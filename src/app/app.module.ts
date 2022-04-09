@@ -23,6 +23,7 @@ import { IconComponent } from './shared/icon/icon.component';
 import { TimerAlarmComponent } from './shared/modals/timer-alarm/timer-alarm.component';
 import { TimerComponent } from './shared/timer/timer.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditShopComponent } from './shared/modals/edit-shop/edit-shop.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     IconComponent,
     TimerAlarmComponent,
     TimerComponent,
+    EditShopComponent,
   ],
   imports: [
     BrowserModule,

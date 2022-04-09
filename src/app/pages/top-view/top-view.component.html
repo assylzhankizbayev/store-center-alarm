@@ -1,5 +1,3 @@
-{{ row1$ | async }}
-{{ row2$ | async }}
 <div class="page">
   <app-icon
     class="icon-back"
@@ -10,7 +8,9 @@
 
   <div class="content">
     <div class="col-wrapper">
-      <span class="text">Вид сверху ({{ floorNumber }} этаж)</span>
+      <span class="text" *ngIf="floorNumber">
+        Вид сверху ({{ floorNumber }} этаж)
+      </span>
 
       <div class="top-view">
         <ng-container
@@ -27,7 +27,7 @@
       <app-icon class="icon-meter" name="meter" color="blue"></app-icon>
 
       <div class="meter-info">
-        <div class="meter-info__title">
+        <div class="meter-info__title" *ngIf="floorNumber">
           Электропотребление ({{ floorNumber }} этажа)
         </div>
         <div class="meter-info__value">{{ getFloorRate$ | async }} кВт/ч</div>
@@ -63,7 +63,7 @@
         </div>
       </ng-container>
       <ng-template #showRate>
-        <div class="rate">
+        <div class="rate" (click)="editShop(shop.number)">
           <app-icon class="icon-meter--sm" name="meter" color="blue"></app-icon>
           {{ shop.electricityUsage }} кВт/ч
         </div>

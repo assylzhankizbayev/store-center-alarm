@@ -1,0 +1,26 @@
+<div class="edit-shop" [formGroup]="form">
+  <div class="edit-shop__header">Редактирование магазина</div>
+
+  <mat-form-field class="edit-shop__number" appearance="outline">
+    <mat-label>Электропотребление</mat-label>
+    <input
+      type="number"
+      matInput
+      placeholder="Электропотребление"
+      formControlName="electricityUsage"
+    />
+  </mat-form-field>
+
+  <div class="edit-shop__controls">
+    <button mat-raised-button type="button" (click)="close()">Отмена</button>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      [disabled]="form.invalid"
+      (click)="close(form.value)"
+    >
+      Подтвердить
+    </button>
+  </div>
+</div>

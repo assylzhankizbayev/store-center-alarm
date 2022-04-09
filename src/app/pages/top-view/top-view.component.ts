@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, mergeMap } from 'rxjs/operators';
-import { TimerAlarmType } from '../../models/building.model';
+import { map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { EditShopComponent } from '../../shared/modals/edit-shop/edit-shop.component';
+import { IShop, TimerAlarmType } from '../../models/building.model';
 import { BuildingService } from '../../services/building.service';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-top-view',
@@ -16,7 +19,7 @@ export class TopViewComponent implements OnInit {
   apartmentsInRow = this.buildingService.apartmentsInRow;
   rows = this.buildingService.rows;
   rowsCount = this.buildingService.rowsCount;
-  floorNumber: number = 1;
+  floorNumber: number | null = null;
 
   row1$ = this.route.paramMap.pipe(
     mergeMap((params) => {
@@ -26,15 +29,19 @@ export class TopViewComponent implements OnInit {
       return this.buildingService.shopList.pipe(
         map((shops) =>
           shops.filter((shop) => {
-            const shopNumber = +shop.number;
-            const start =
-              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-              1;
-            const end =
-              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-              this.apartmentsInRow;
+            if (this.floorNumber) {
+              const shopNumber = +shop.number;
+              const start =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                1;
+              const end =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                this.apartmentsInRow;
 
-            return shopNumber >= start && shopNumber <= end;
+              return shopNumber >= start && shopNumber <= end;
+            }
+
+            return false;
           })
         )
       );
@@ -49,16 +56,20 @@ export class TopViewComponent implements OnInit {
       return this.buildingService.shopList.pipe(
         map((shops) =>
           shops.filter((shop) => {
-            const shopNumber = +shop.number;
-            const start =
-              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-              this.apartmentsInRow +
-              1;
-            const end =
-              (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-              2 * this.apartmentsInRow;
+            if (this.floorNumber) {
+              const shopNumber = +shop.number;
+              const start =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                this.apartmentsInRow +
+                1;
+              const end =
+                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
+                2 * this.apartmentsInRow;
 
-            return shopNumber >= start && shopNumber <= end;
+              return shopNumber >= start && shopNumber <= end;
+            }
+
+            return false;
           })
         )
       );
@@ -74,15 +85,23 @@ export class TopViewComponent implements OnInit {
         map((shops) =>
           shops
             .filter((shop) => {
-              const shopNumber = +shop.number;
-              const start =
-                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-                1;
-              const end =
-                (this.floorNumber - 1) * this.apartmentsInRow * this.rowsCount +
-                2 * this.apartmentsInRow;
+              if (this.floorNumber) {
+                const shopNumber = +shop.number;
+                const start =
+                  (this.floorNumber - 1) *
+                    this.apartmentsInRow *
+                    this.rowsCount +
+                  1;
+                const end =
+                  (this.floorNumber - 1) *
+                    this.apartmentsInRow *
+                    this.rowsCount +
+                  2 * this.apartmentsInRow;
 
-              return shopNumber >= start && shopNumber <= end;
+                return shopNumber >= start && shopNumber <= end;
+              }
+
+              return false;
             })
             .reduce((sum, shop) => sum + shop.electricityUsage, 0)
         )
@@ -91,6 +110,7 @@ export class TopViewComponent implements OnInit {
   );
 
   constructor(
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
     private buildingService: BuildingService
@@ -106,24 +126,19 @@ export class TopViewComponent implements OnInit {
     this.router.navigate(['/home']);
   }
 
-  // getRate(flatNumber: number): number {
-  //   const aparment = this.buildingService.apartmentList?.find((apartment) => {
-  //     return apartment.flatNumber === flatNumber;
-  //   });
+  editShop(shopNumber: string) {
+    const dialogRef = this.dialog.open(EditShopComponent, { data: shopNumber });
 
-  //   return aparment ? aparment.rate : 0;
-  // }
-
-  // getFloorRate(): number {
-  //   const start =
-  //     (this.floorNumber - 1) * this.rowsCount * this.apartmentsInRow + 1;
-  //   const end = this.floorNumber * this.rowsCount * this.apartmentsInRow;
-  //   const totalRateOfFloor = this.buildingService.apartmentList
-  //     ?.filter(
-  //       (aparment) => aparment.flatNumber >= start && aparment.flatNumber <= end
-  //     )
-  //     ?.reduce((sum, aparment) => sum + aparment.rate, 0);
-
-  //   return totalRateOfFloor || 0;
-  // }
+    dialogRef
+      .afterClosed()
+      .pipe(
+        take(1),
+        switchMap((shop: IShop) => {
+          return shop?.number
+            ? this.buildingService.updateShopByNumber(shop)
+            : of(null);
+        })
+      )
+      .subscribe();
+  }
 }
