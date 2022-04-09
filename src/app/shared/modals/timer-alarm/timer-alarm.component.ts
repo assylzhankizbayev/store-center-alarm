@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IAlarm } from '../../../models/building.model';
+import { IAlarm } from '../../../models/alarm.model';
 import { BuildingService } from '../../../services/building.service';
 
 @Component({
@@ -13,7 +13,7 @@ export class TimerAlarmComponent implements OnInit {
   totalApartments = this.buildingService.totalApartments;
 
   form = this.fb.group({
-    flatNumber: [null, Validators.required],
+    number: [null, Validators.required],
     timer: [null, Validators.required],
     type: ['fire', Validators.required],
   })

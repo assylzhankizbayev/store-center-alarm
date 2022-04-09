@@ -3,8 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { EditShopComponent } from '../../shared/modals/edit-shop/edit-shop.component';
-import { IShop, TimerAlarmType } from '../../models/building.model';
+import { IShop } from '../../models/building.model';
+import { TimerAlarmType } from '../../models/alarm.model';
 import { BuildingService } from '../../services/building.service';
+import { AlarmService } from '../../services/alarm.service';
 import { of } from 'rxjs';
 
 @Component({
@@ -14,7 +16,7 @@ import { of } from 'rxjs';
 })
 export class TopViewComponent implements OnInit {
   TIMER_ALARM = TimerAlarmType;
-  alarm$ = this.buildingService.alarm;
+  alarm$ = this.alarmService.alarm;
   apartments = this.buildingService.apartments;
   apartmentsInRow = this.buildingService.apartmentsInRow;
   rows = this.buildingService.rows;
@@ -113,13 +115,14 @@ export class TopViewComponent implements OnInit {
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    private buildingService: BuildingService
+    private buildingService: BuildingService,
+    private alarmService: AlarmService
   ) {}
 
   ngOnInit(): void {}
 
   reset() {
-    this.buildingService.resetAlarm();
+    this.alarmService.resetAlarm();
   }
 
   back() {

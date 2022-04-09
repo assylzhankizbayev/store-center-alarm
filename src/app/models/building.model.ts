@@ -1,15 +1,3 @@
-export interface IAlarm {
-  flatNumber: number;
-  timer: number;
-  type: string;
-  time?: string;
-}
-
-export enum TimerAlarmType {
-  Electricity = 'electricity',
-  Fire = 'fire',
-}
-
 export interface IShopList {
   success: boolean;
   result: IShop[];

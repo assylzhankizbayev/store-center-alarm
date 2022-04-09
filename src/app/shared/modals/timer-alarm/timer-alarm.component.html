@@ -12,7 +12,7 @@
 
   <mat-form-field class="timer-alarm__select" appearance="fill">
     <mat-label>Выберите номер апартамента</mat-label>
-    <mat-select formControlName="flatNumber">
+    <mat-select formControlName="number">
       <mat-option
         *ngFor="let apartment of totalApartments; index as i"
         [value]="i + 1"

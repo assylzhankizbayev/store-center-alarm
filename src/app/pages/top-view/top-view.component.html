@@ -45,7 +45,8 @@
     >
       <ng-container *ngIf="alarm$ | async as alarm; else showRate">
         <div
-          *ngIf="alarm.flatNumber === shop.number; else showRate"
+          class="alarm-icon"
+          *ngIf="+alarm.number === +shop.number; else showRate"
           (click)="reset()"
         >
           <app-icon
